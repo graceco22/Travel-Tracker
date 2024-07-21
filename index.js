@@ -21,13 +21,18 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-//GET gome page
-app.get("/", async (req, res) => {
-    const result = await db.query("SELECT country_code FROM visited_countries");
+async function checkVisisted() {
+  const result = await db.query("SELECT country_code FROM visited_countries");
     let countries = [];
     result.rows.forEach((country) => {
       countries.push(country.country_code);
     });
+  return countries;
+  }
+
+//GET gome page
+app.get("/", async (req, res) => {
+    const countries = await checkVisisted();
     res.render("index.ejs", { countries: countries, total: countries.length});
 });
 
