@@ -8,6 +8,7 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+// access database
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
